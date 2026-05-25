@@ -1,0 +1,316 @@
+.doc-detail-page {
+    /* background: #fbf8f1; */
+}
+
+.doc-detail-breadcrumb {
+    /* background: #fff; */
+    /* border-bottom: 1px solid #e8ecf1; */
+    /* padding: 14px 0; */
+}
+
+.doc-detail-breadcrumb .breadcrumb {
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.doc-detail-breadcrumb .breadcrumb-item a {
+    color: #1f4f78;
+    text-decoration: none;
+}
+
+.doc-detail-breadcrumb .breadcrumb-item.active {
+    color: #64748b;
+}
+
+.doc-detail-top {
+    /* padding-top: 8px; */
+}
+
+.doc-detail-cover {
+    background: #fff;
+    border: 1px solid #e8ecf1;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(19, 20, 26, 0.06);
+}
+
+.doc-detail-cover__placeholder {
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: linear-gradient(145deg, #f4f7fb 0%, #e9eef5 100%);
+    color: #1f4f78;
+}
+
+.doc-detail-cover__placeholder i {
+    font-size: 4rem;
+    line-height: 1;
+    opacity: 0.85;
+}
+
+.doc-detail-cover__placeholder span {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.doc-detail-gallery-wrap {
+    padding: 16px;
+}
+
+.doc-detail-gallery__item {
+    position: relative;
+    display: block;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e8ecf1;
+    background: #f8fafc;
+    cursor: zoom-in;
+}
+
+.doc-detail-gallery__item img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.25s ease;
+}
+
+.doc-detail-gallery__item:hover img {
+    transform: scale(1.04);
+}
+
+.doc-detail-gallery__zoom {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    color: #1f4f78;
+    font-size: 1.6rem;
+    box-shadow: 0 2px 8px rgba(19, 20, 26, 0.12);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.doc-detail-gallery__item:hover .doc-detail-gallery__zoom {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.doc-detail-gallery .col-12 .doc-detail-gallery__item img {
+    aspect-ratio: 4 / 3;
+    max-height: 420px;
+    object-fit: cover;
+    background: #fff;
+}
+
+.doc-detail-main {
+    background: #fff;
+    border: 1px solid #e8ecf1;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 8px 24px rgba(19, 20, 26, 0.04);
+}
+
+.doc-detail-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    margin-bottom: 10px;
+    border-radius: 999px;
+    background: #eef4fa;
+    color: #1f4f78;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.doc-detail-cate {
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4b6b8a;
+    text-decoration: none;
+}
+
+.doc-detail-cate:hover {
+    color: #1f4f78;
+}
+
+.doc-detail-main h1 {
+    font-size: clamp(1.1rem, 1.2vw, 2.85rem);
+    line-height: 1.35;
+    margin-bottom: 12px;
+    color: #13141a;
+}
+
+.doc-detail-excerpt {
+    color: #4b5563;
+    font-size: 15px;
+    line-height: 1.65;
+    margin-bottom: 18px;
+}
+
+.doc-detail-price .price {
+    margin-bottom: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #c62828;
+}
+
+.doc-detail-price .price del {
+    font-size: 1rem;
+    color: #9ca3af;
+    margin-left: 8px;
+}
+
+.doc-detail-price .price.doc-detail-price--free {
+    color: #2e7d32;
+}
+
+.doc-detail-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 22px 0 20px;
+}
+
+.doc-detail-actions .primary-btn1 {
+    min-width: 160px;
+    text-align: center;
+}
+
+.doc-detail-meta {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 18px;
+    border-top: 1px solid #eef2f6;
+    padding-top: 0px;
+}
+
+.doc-detail-meta li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px 0;
+    font-size: 14px;
+    color: #334155;
+}
+
+.doc-detail-meta li > span:first-child {
+    min-width: 88px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.doc-detail-meta a {
+    color: #1f4f78;
+    text-decoration: none;
+}
+
+.doc-detail-meta a:hover {
+    text-decoration: underline;
+}
+
+.doc-detail-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.doc-detail-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.doc-detail-benefits {
+    display: grid;
+    gap: 10px;
+    padding: 16px;
+    border-radius: 10px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.doc-detail-benefit {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: #334155;
+}
+
+.doc-detail-benefit i {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: #1f4f78;
+    font-size: 1.1rem;
+}
+
+.doc-detail-description {
+    background: #fff;
+    /* border: 1px solid #e8ecf1; */
+    border-radius: 12px;
+    padding: 8px 8px 24px;
+}
+
+.doc-detail-description .nav-tabs {
+    border-bottom-color: #e8ecf1;
+    padding: 0 12px;
+}
+
+.doc-detail-description .nav-tabs .nav-link {
+    color: #64748b;
+    font-weight: 600;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 14px 16px;
+}
+
+.doc-detail-description .nav-tabs .nav-link.active {
+    color: #1f4f78;
+    border-bottom-color: #1f4f78;
+    background: transparent;
+}
+
+.doc-detail-description .content-post {
+    padding: 8px 12px 0;
+    color: #334155;
+    line-height: 1.7;
+}
+
+.doc-detail-related .section-title2 h3 {
+    color: #13141a;
+}
+
+.doc-detail-page .quantity__input[type="hidden"] {
+    display: none;
+}
+
+@media (max-width: 991.98px) {
+    .doc-detail-main {
+        padding: 18px;
+    }
+
+    .doc-detail-cover__placeholder {
+        min-height: 220px;
+    }
+}

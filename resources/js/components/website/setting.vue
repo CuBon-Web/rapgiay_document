@@ -122,14 +122,66 @@
                     v-model="objData.iframe_map"
                   />
                 </div>
-                <div class="form-group">
-                  <label>Link Tải Profile</label>
-                  <vs-input
-                    type="text"
-                    size="default"
-                    class="w-100"
-                    v-model="objData.linkpopup"
-                  />
+                <div class="row">
+                  <div class="col-md-12">
+                    <h5 style="margin: 12px 0 8px;">Thông tin QR ngân hàng (ủng hộ)</h5>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Mã ngân hàng (BIN)</label>
+                      <vs-input
+                        type="text"
+                        size="default"
+                        class="w-100"
+                        v-model="objData.bank_bin"
+                        placeholder="VD: 970422"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Số tài khoản</label>
+                      <vs-input
+                        type="text"
+                        size="default"
+                        class="w-100"
+                        v-model="objData.bank_number"
+                        placeholder="VD: 0123456789"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Chủ tài khoản</label>
+                      <vs-input
+                        type="text"
+                        size="default"
+                        class="w-100"
+                        v-model="objData.bank_owner"
+                        placeholder="VD: NGUYEN VAN A"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label>Nội dung chuyển khoản</label>
+                      <vs-input
+                        type="text"
+                        size="default"
+                        class="w-100"
+                        v-model="objData.support_content"
+                        placeholder="Ung ho de phat trien them nhieu tai lieu hay"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-12" v-if="supportQrUrl">
+                    <div class="form-group">
+                      <label>Preview QR</label>
+                      <div>
+                        <img :src="supportQrUrl" alt="QR ngân hàng" style="max-width: 220px; border: 1px solid #eee; border-radius: 8px; padding: 6px;">
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="form-group">
                   <label>Chế độ tag sản phẩm</label>
@@ -190,7 +242,18 @@ export default {
             statusImgHeader:0,
             imgHeader:"",
             linkImgHeader:"",
-            use_global_tags: 1
+            use_global_tags: 1,
+            facebook : "",
+            google : "",
+            GA : "",
+            fbPixel : "",
+            iframe_map : "",
+            favicon : "",
+            logo : "",
+            bank_bin : "",
+            bank_number : "",
+            bank_owner : "",
+            support_content : "Ung ho de phat trien them nhieu tai lieu hay"
         }
     };
   },
@@ -226,6 +289,14 @@ export default {
         this.loadings(false);;
       })
     }
+  },
+  computed: {
+    supportQrUrl() {
+      if (!this.objData.bank_bin || !this.objData.bank_number) return "";
+      const content = this.objData.support_content || "Ung ho de phat trien them nhieu tai lieu hay";
+      const owner = this.objData.bank_owner || this.objData.company || "";
+      return `https://img.vietqr.io/image/${this.objData.bank_bin}-${this.objData.bank_number}-compact2.png?addInfo=${encodeURIComponent(content)}&accountName=${encodeURIComponent(owner)}`;
+    },
   },
   mounted() {
     this.listSettings();

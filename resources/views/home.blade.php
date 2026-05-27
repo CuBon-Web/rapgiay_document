@@ -107,37 +107,32 @@ if (document.readyState === 'loading') {
 </script>
 @endsection
 @section('content')
+@php
+   $bannerMobileSlides = isset($bannerMobile) && $bannerMobile->isNotEmpty() ? $bannerMobile : $banner;
+@endphp
 <!-- Start Banner section -->
 <div class="banner-section wow fadeInUp" data-wow-duration="1s">
    <div class="container-fluid p-0">
       <div class="row">
          <div class="col-lg-12">
-            <div class="swiper banner1-slider">
+            <div class="swiper banner1-slider d-none d-md-block">
                <div class="swiper-wrapper">
                   @foreach ($banner as $item)
                   <div class="swiper-slide">
                      <div class="banner-wrapper">
-                        <div class="banner-right-wrapper">
-                           <div class="banner-right-img">
-                              <img src="{{$item->image}}" alt="" class="banner-right-bg" @if($loop->first) fetchpriority="high" loading="eager" @else loading="lazy" @endif decoding="async">
-                           </div>
-                        </div>
-                        <div class="banner-left">
-                           <img src="/frontend/img/banner-vector1.svg" alt="" class="banner-vector1">
-                           <img src="/frontend/img/banner-vector2.svg" alt="" class="banner-vector2">
-                           <img src="/frontend/img/banner-vector3.png" alt="" class="banner-vector3">
-                           <div class="banner-content">
-                              {{-- 
-                              <div class="discount">
-                                 <img src="https://demo.egenslab.com/html/beautico/preview/assets/img/home1/discount-bg.svg" alt="">
-                                 <p><strong>25% </strong>OFF</p>
-                              </div>
-                              --}}
-                              <h1>{!!$item->title!!}</h1>
-                              <p>{{$item->description}}</p>
-                              <a href="{{$item->link}}" class="primary-btn1 hover-btn3">*Shop Now* </a>
-                           </div>
-                        </div>
+                        <img src="{{$item->image}}" alt="{{ $item->title ?? '' }}" class="banner-right-bg w-100 d-none d-md-block" @if($loop->first) fetchpriority="high" loading="eager" @else loading="lazy" @endif decoding="async">
+                     </div>
+                  </div>
+                  @endforeach
+               </div>
+               <div class="swiper-pagination1"></div>
+            </div>
+            <div class="swiper banner1-slider banner1-slider--mobile d-md-none">
+               <div class="swiper-wrapper">
+                  @foreach ($bannerMobileSlides as $item)
+                  <div class="swiper-slide">
+                     <div class="banner-wrapper">
+                        <img src="{{$item->image}}" alt="{{ $item->title ?? '' }}" class="banner-right-bg w-100 d-block d-md-none" @if($loop->first) fetchpriority="high" loading="eager" @else loading="lazy" @endif decoding="async">
                      </div>
                   </div>
                   @endforeach

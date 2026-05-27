@@ -213,19 +213,24 @@
       $(".search-input").removeClass("active");
   });
 
-  var swiper = new Swiper(".banner1-slider", {
-    slidesPerView: "auto",
-    speed: 1500,
-    loop: true,
-    autoplay: true,
-    effect: "fade",
-    fadeEffect: {
-      crossFade: true,
-    },
-    pagination: {
-      el: ".swiper-pagination1",
-      clickable: true,
-    },
+  document.querySelectorAll(".banner1-slider").forEach(function (bannerSlider) {
+    var paginationEl = bannerSlider.querySelector(".swiper-pagination1");
+    new Swiper(bannerSlider, {
+      slidesPerView: "auto",
+      speed: 1500,
+      loop: true,
+      autoplay: true,
+      effect: "fade",
+      fadeEffect: {
+        crossFade: true,
+      },
+      pagination: paginationEl
+        ? {
+            el: paginationEl,
+            clickable: true,
+          }
+        : false,
+    });
   });
 
   var swiper = new Swiper(".banner2-slider", {

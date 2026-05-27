@@ -80,6 +80,7 @@
                     v-model="objData.email"
                   />
                 </div>
+                
                 <div class="form-group">
                   <label>Facebook</label>
                   <vs-input
@@ -158,12 +159,23 @@ export default {
             fbPixel : "",
             iframe_map : "",
             favicon : "",
-            logo : ""
+            logo : "",
+            bank_bin : "",
+            bank_number : "",
+            bank_owner : "",
+            support_content : "Ung ho de phat trien them nhieu tai lieu hay"
         }
     };
   },
   components: {},
-  computed: {},
+  computed: {
+    supportQrUrl() {
+      if (!this.objData.bank_bin || !this.objData.bank_number) return "";
+      const content = this.objData.support_content || "Ung ho de phat trien them nhieu tai lieu hay";
+      const owner = this.objData.bank_owner || this.objData.company || "";
+      return `https://img.vietqr.io/image/${this.objData.bank_bin}-${this.objData.bank_number}-compact2.png?addInfo=${encodeURIComponent(content)}&accountName=${encodeURIComponent(owner)}`;
+    },
+  },
   watch: {},
   methods: {
     ...mapActions(["postSetting", "loadings","getSetting"]),

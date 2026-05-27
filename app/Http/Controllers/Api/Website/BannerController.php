@@ -17,7 +17,8 @@ class BannerController extends Controller
 	    		Banner::updateOrCreate(
 				    [
                         'image' => $value['image'],
-				        'status' =>$value['status'],
+				        'status' => $value['status'],
+                        'device' => $value['device'] ?? 'pc',
                         'title' => $value['title'],
                         'description' => $value['description'],
 				        'link' => $value['link'],

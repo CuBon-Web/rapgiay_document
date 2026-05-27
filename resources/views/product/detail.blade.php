@@ -1,4 +1,4 @@
-@extends('layouts.main.master')
+﻿@extends('layouts.main.master')
 @section('title')
     {{ $product->seo_title ? $product->seo_title : $product->name }}
 @endsection
@@ -143,7 +143,7 @@
     <script type="application/ld+json">{!! json_encode(['@context' => 'https://schema.org', '@graph' => $schemaGraph], $jsonFlags) !!}</script>
 @endsection
 @section('css')
-    <link rel="stylesheet" href="/frontend/css/document-detail.css">
+    <link rel="stylesheet" href="/frontend/css/document-detail.css?v=20260527">
 @endsection
 @section('js')
     <script src="{{ asset('frontend/js/quickview-cart.js') }}"></script>
@@ -266,6 +266,75 @@
             transitionEffect: "slide",
             animationEffect: "zoom-in-out",
         });
+
+        (function () {
+            var mq = window.matchMedia("(min-width: 992px)");
+            var shell = document.querySelector(".doc-detail-shell");
+            var col = document.querySelector(".doc-detail-cover-col");
+            var wrap = document.querySelector(".doc-detail-cover-sticky-wrap");
+            if (!shell || !col || !wrap) {
+                return;
+            }
+
+            function headerOffset() {
+                var header = document.querySelector("header.header-area");
+                return (header ? header.offsetHeight : 88) + 16;
+            }
+
+            function resetSticky() {
+                wrap.classList.remove("is-fixed", "is-at-bottom");
+                wrap.style.cssText = "";
+                col.style.minHeight = "";
+            }
+
+            function updateStickyGallery() {
+                if (!mq.matches) {
+                    resetSticky();
+                    return;
+                }
+
+                var top = headerOffset();
+                var shellRect = shell.getBoundingClientRect();
+                var colRect = col.getBoundingClientRect();
+                var wrapHeight = wrap.offsetHeight;
+
+                col.style.minHeight = wrapHeight + "px";
+
+                if (shellRect.top >= top) {
+                    resetSticky();
+                    return;
+                }
+
+                var limitBottom = top + wrapHeight;
+                if (shellRect.bottom <= limitBottom) {
+                    wrap.classList.remove("is-fixed");
+                    wrap.classList.add("is-at-bottom");
+                    wrap.style.position = "absolute";
+                    wrap.style.top = "auto";
+                    wrap.style.bottom = "0";
+                    wrap.style.left = "0";
+                    wrap.style.width = "100%";
+                    return;
+                }
+
+                wrap.classList.remove("is-at-bottom");
+                wrap.classList.add("is-fixed");
+                wrap.style.position = "fixed";
+                wrap.style.top = top + "px";
+                wrap.style.left = colRect.left + "px";
+                wrap.style.width = colRect.width + "px";
+                wrap.style.zIndex = "20";
+            }
+
+            window.addEventListener("scroll", updateStickyGallery, { passive: true });
+            window.addEventListener("resize", updateStickyGallery);
+            if (mq.addEventListener) {
+                mq.addEventListener("change", updateStickyGallery);
+            } else {
+                mq.addListener(updateStickyGallery);
+            }
+            updateStickyGallery();
+        })();
     </script>
 @endsection
 @section('content')
@@ -275,6 +344,14 @@
         $productTags = json_decode($product->tags ?? '[]', true);
         $productTags = is_array($productTags) ? $productTags : [];
         $categoryUrl = route('allListProCate', ['danhmuc' => $product->cate_slug]);
+        $supportBankBin = $setting->bank_bin ?? $setting->bank_code ?? $setting->bank_id ?? '';
+        $supportAccountNo = $setting->bank_number ?? $setting->bank_account ?? $setting->account_number ?? $setting->stk ?? '';
+        $supportAccountName = $setting->bank_owner ?? $setting->account_name ?? $setting->bank_name ?? $setting->company ?? '';
+        $supportMessage = $setting->support_content ?? 'Ung ho de phat trien them nhieu tai lieu hay';
+        $supportQrUrl = '';
+        if ($supportBankBin !== '' && $supportAccountNo !== '') {
+            $supportQrUrl = 'https://img.vietqr.io/image/' . $supportBankBin . '-' . $supportAccountNo . '-compact2.png?addInfo=' . rawurlencode($supportMessage) . '&accountName=' . rawurlencode($supportAccountName);
+        }
     @endphp
     <div class="doc-detail-page">
     <!-- Start Breadcrumb Section -->
@@ -294,8 +371,9 @@
     <!-- Start Document Detail -->
     <div class="doc-detail-top mt-40 mb-50">
         <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-6">
+            <div class="doc-detail-shell">
+                <aside class="doc-detail-cover-col" aria-label="Ảnh tài liệu">
+                    <div class="doc-detail-cover-sticky-wrap">
                     <div class="doc-detail-cover">
                         @if (count($img) > 0)
                             <div class="doc-detail-gallery-wrap">
@@ -323,8 +401,9 @@
                             </div>
                         @endif
                     </div>
-                </div>
-                <div class="col-lg-6">
+                    </div>
+                </aside>
+                <div class="doc-detail-content-col">
                     <div class="doc-detail-main shop-details-content">
                         @php
                             $originalPrice = (float) $product->price;
@@ -351,6 +430,12 @@
                                 <p class="price" id="detail-product-price">{{ number_format($originalPrice) }}₫</p>
                             @endif
                         </div>
+                        @if ($displayPrice <= 0)
+                        <div class="doc-detail-actions shop-details-btn" >
+                            <a href="{{$product->origin}}" target="_blank" class="primary-btn1 hover-btn3" >Tải xuống ngay</a>
+                            
+                        </div>
+                        @else 
                         <input type="hidden" name="quantity" class="quantity__input" value="1">
                         <div class="doc-detail-actions shop-details-btn" id="detail-product-actions" data-product-id="{{ $product->id }}"
                             data-add-cart-url="{{ route('add.to.cart') }}" data-checkout-url="{{ route('checkout') }}">
@@ -358,6 +443,8 @@
                             <a href="{{ route('checkout') }}" class="primary-btn1 style-3 hover-btn4"
                                 id="detail-buy-now-btn">Mua ngay</a>
                         </div>
+                        @endif
+                       
                         <ul class="doc-detail-meta product-info-list">
                             @if (!empty($product->sku))
                                 <li><span>Mã tài liệu:</span> <span id="detail-product-sku">{{ $product->sku }}</span></li>
@@ -395,37 +482,55 @@
                                 <span>Hỗ trợ qua hotline {{ $setting->hotline ?? $setting->phone1 }} nếu gặp sự cố tải xuống.</span>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Document Detail -->
 
-    <!-- Start Document Description -->
-    <div class="doc-detail-description shop-details-description mb-60" id="doc-content">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="shop-details-description-nav mb-20">
-                        <nav>
-                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                <button class="nav-link active" id="nav-description-tab" data-bs-toggle="tab"
-                                    data-bs-target="#nav-description" type="button" role="tab"
-                                    aria-controls="nav-description" aria-selected="true">Mô tả tài liệu</button>
+                        <div class="card border-0 shadow-sm mt-4">
+                            <div class="card-body">
+                                <h5 class="mb-2 d-flex align-items-center">
+                                    <i class="bi bi-qr-code me-2"></i>Ủng hộ phát triển tài liệu
+                                </h5>
+                                <p class="text-muted mb-3">
+                                    Nếu thấy tài liệu hữu ích, bạn có thể quét mã QR ngân hàng để ủng hộ mình
+                                    có thêm động lực phát triển nhiều tài liệu hay hơn.
+                                </p>
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-sm-5 col-md-4">
+                                        @if ($supportQrUrl !== '')
+                                            <img src="{{ $supportQrUrl }}" alt="QR ủng hộ phát triển tài liệu" class="img-fluid rounded border">
+                                        @else
+                                            <div class="border rounded p-3 text-center text-muted small">
+                                                Chưa có thông tin QR ngân hàng.
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="col-sm-7 col-md-8">
+                                        <ul class="list-unstyled mb-0 small">
+                                            <li class="mb-1"><strong>Ngân hàng:</strong> {{ $supportBankBin !== '' ? $supportBankBin : 'Đang cập nhật' }}</li>
+                                            <li class="mb-1"><strong>Số tài khoản:</strong> {{ $supportAccountNo !== '' ? $supportAccountNo : 'Đang cập nhật' }}</li>
+                                            <li class="mb-1"><strong>Chủ tài khoản:</strong> {{ $supportAccountName !== '' ? $supportAccountName : ($setting->company ?? 'Đang cập nhật') }}</li>
+                                            <li><strong>Nội dung CK:</strong> {{ $supportMessage }}</li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                        </nav>
+                        </div>
                     </div>
-                    <div class="shop-details-description-tab">
-                        <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="nav-description" role="tabpanel"
-                                aria-labelledby="nav-description-tab">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="content-post">
-                                            {!! languageName($product->content) !!}
-                                        </div>
 
+                    <div class="doc-detail-description shop-details-description mt-4" id="doc-content">
+                        <div class="shop-details-description-nav mb-20">
+                            <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <button class="nav-link active" id="nav-description-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-description" type="button" role="tab"
+                                        aria-controls="nav-description" aria-selected="true">Mô tả tài liệu</button>
+                                </div>
+                            </nav>
+                        </div>
+                        <div class="shop-details-description-tab">
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="nav-description" role="tabpanel"
+                                    aria-labelledby="nav-description-tab">
+                                    <div class="content-post">
+                                        {!! languageName($product->content) !!}
                                     </div>
                                 </div>
                             </div>
@@ -435,7 +540,7 @@
             </div>
         </div>
     </div>
-    <!-- End Document Description -->
+    <!-- End Document Detail -->
     <div class="doc-detail-related newest-product-section mb-80">
         <div class="container">
             <div class="section-title2 style-2">

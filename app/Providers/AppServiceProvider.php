@@ -92,7 +92,13 @@ class AppServiceProvider extends ServiceProvider
             $this->attachVariantPriceRange($products);
             $categoryhome = $categories;
 
-            $banner = Banner::where(['status'=>1])->get(['id','image','link','title','description']);
+            $bannerFields = ['id', 'image', 'link', 'title', 'description', 'device'];
+            $banner = Banner::where('status', 1)
+                ->where(function ($query) {
+                    $query->where('device', 'pc')->orWhereNull('device');
+                })
+                ->get($bannerFields);
+            $bannerMobile = Banner::where(['status' => 1, 'device' => 'mobile'])->get($bannerFields);
             $cartcontent = session()->get('cart', []);
             $viewold = session()->get('viewoldpro', []);
             $compare = session()->get('compareProduct', []);
@@ -114,6 +120,7 @@ class AppServiceProvider extends ServiceProvider
                 'pageContent' => $pageContent,
                 'lang' => $lang,
                 'banner'=>$banner,
+                'bannerMobile'=>$bannerMobile,
                 'profile' =>$profile,
                 'categoryhome'=> $categoryhome,
                 'cartcontent'=>$cartcontent,

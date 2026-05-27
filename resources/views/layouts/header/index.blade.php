@@ -25,7 +25,7 @@
 <header class="header-area">
    <div class="container-xxl container-fluid position-relative  d-flex flex-nowrap align-items-center justify-content-between">
        <div class="header-logo d-lg-none d-flex">
-           <a href="{{route('home')}}"><img alt="image" class="img-fluid" src="{{$setting->logo}}"></a>
+           <a href="{{route('home')}}"><img width="100" alt="image" class="img-fluid" src="{{$setting->logo}}"></a>
        </div>
        <div class="main-menu">
            <div class="mobile-logo-area d-lg-none d-flex justify-content-between align-items-center">

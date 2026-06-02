@@ -8,14 +8,24 @@
                <div class="company-logo">
                    <a href="{{route('home')}}"><img width="200" src="{{$setting->logo}}" alt=""></a>
                </div>
-               <div class="search-area">
-                   <form>
-                       <div class="form-inner">
-                           <input type="text" placeholder="Search...">
-                           <button type="submit"><i class='bx bx-search'></i></button>
-                       </div>
-                   </form>
-               </div>
+              <div class="search-area">
+                  <form action="{{ route('search_result') }}" method="POST" role="search" aria-label="Tìm kiếm sản phẩm">
+                      @csrf
+                      <div class="form-inner">
+                          <input
+                              type="text"
+                              name="keywordsearch"
+                              value="{{ old('keywordsearch', request('keywordsearch')) }}"
+                              placeholder="Tìm tài liệu..."
+                              aria-label="Nhập từ khóa tìm kiếm"
+                              required
+                          >
+                          <button type="submit" aria-label="Tìm kiếm">
+                              <i class='bx bx-search'></i>
+                          </button>
+                      </div>
+                  </form>
+              </div>
            </div>
        </div>
    </div>

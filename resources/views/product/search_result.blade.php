@@ -13,22 +13,6 @@ Kết quả tìm kiếm
 @endsection
 @section('content')
 <div class="contentWarp ">
-	<div class="breadcrumbs bg-white">
-	   <div class="container position-relative">
-		  <ul class="breadcrumb align-items-center m-0 pl-0 pr-0 small pt-2 pb-2 bg-white">
-			 <li class="home">
-				<a href="/" title="Trang chủ">
-				   <svg width="12" height="10.633">
-					  <use href="#svg-home"></use>
-				   </svg>
-				   Trang chủ
-				</a>
-				<span class="slash-divider ml-2 mr-2">/</span>
-			 </li>
-			 <li>Kết quá tìm kiếm - </li>
-		  </ul>
-	   </div>
-	</div>
 	<section class="search-layout">
 	   <div class="container rounded m_white_bg_module" style="min-height: 350px">
 		  <div class="category-products position-relative mt-4 mb-4 pt-3 pb-2 b_search">

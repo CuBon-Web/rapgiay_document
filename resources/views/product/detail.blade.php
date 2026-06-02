@@ -469,17 +469,17 @@
                             @endif
                         </ul>
                         <div class="doc-detail-benefits">
-                            <div class="doc-detail-benefit">
+                            {{-- <div class="doc-detail-benefit">
                                 <i class="bi bi-cloud-download"></i>
                                 <span>Nhận link tải tài liệu ngay sau khi thanh toán thành công.</span>
-                            </div>
+                            </div> --}}
                             <div class="doc-detail-benefit">
                                 <i class="bi bi-shield-check"></i>
-                                <span>Tài liệu số chính hãng, cập nhật theo chương trình mới nhất.</span>
+                                <span>Web của chúng ra, vui lòng chuyển khoản 1K/1 file tải</span>
                             </div>
                             <div class="doc-detail-benefit">
                                 <i class="bi bi-headset"></i>
-                                <span>Hỗ trợ qua hotline {{ $setting->hotline ?? $setting->phone1 }} nếu gặp sự cố tải xuống.</span>
+                                <span>Không muốn ghép thì mua RẬP 9K tại <a href="http://rapgiay.com">rapgiay.com</a> ạ</span>
                             </div>
                         </div>
 
